@@ -32,6 +32,8 @@ const signup = async (req , res) => {
          user : {id : user._id ,  email:user.email},
          token
       })
+      console.log("SIGNUP HIT");
+       console.log(req.body);
     } catch(err){
       return res.status(500).json({error : err.message})
     }      

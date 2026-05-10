@@ -2,8 +2,12 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const User = require('../models/User')
 const bcrypt = require('bcryptjs');
+const connectDB = require('../config/db')
 dotenv.config();
-const JWT = process.env.JWT_SECRET
+const JWT = process.env.JWT_SECRET;
+if(!JWT){
+  throw new Error ('JWT secret is missing as an environment variable');
+};
 // signup 
 const signup = async (req , res) => {
     await connectDB();
@@ -42,7 +46,7 @@ const login = async (req , res) => {
    if(!user) {
   return res.status(400).json({message:"Invalid Credentials"}) 
  }
-     const isPasswordValid = bcrypt.compare(password , user.password);
+     const isPasswordValid = await  bcrypt.compare(password , user.password);
  if(!isPasswordValid) {
           return res.status(400).json({message : "wrong password"})
  }

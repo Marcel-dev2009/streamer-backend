@@ -1,16 +1,14 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv');
-const User = require('../models/User')
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const connectDB = require('../config/db')
 dotenv.config();
 const JWT = process.env.JWT_SECRET;
 if(!JWT){
-  throw new Error ('JWT secret is missing as an environment variable');
+console.log('JWT secret is missing as an environment variable');
 };
 // signup 
 const signup = async (req , res) => {
-    await connectDB();
     try{
       const {firstname, lastname , email , password} = req.body;
       const existingUser = await User.findOne({ email });

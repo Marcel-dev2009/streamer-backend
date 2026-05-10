@@ -8,14 +8,15 @@ const JWT = process.env.JWT_SECRET
 const signup = async (req , res) => {
     await connectDB();
     try{
-      const {name , email , password} = req.body;
+      const {firstname, lastname , email , password} = req.body;
       const existingUser = await User.findOne({ email });
       if(existingUser){
         return res.status(400).json({message : "user already exists"})  
       }
       const hashedPassword = await bcrypt.hash(password , 10);
       const user = await  User.create({
-        name , 
+        firstname ,
+        lastname, 
         email , 
         password : hashedPassword  
       });
@@ -26,7 +27,7 @@ const signup = async (req , res) => {
       );
       res.status(201).json({
          message : "user created sucessfully",
-         user : {id : user._id , name : user.name , email:user.email},
+         user : {id : user._id ,  email:user.email},
          token
       })
     } catch(err){
@@ -49,7 +50,7 @@ const login = async (req , res) => {
      res.status(200).json(
          {
            message : "Login Sucessful",
-           user : {id : user._id , name : user.name , email:user.email},
+           user : {id : user._id ,  email:user.email},
            token
          } 
      )    

@@ -20,6 +20,16 @@ const UserSchema = new mongoose.Schema({
     minlength : 8,
     maxlenght : 10,
    },
+   photoUrl : {
+    type : String,
+   },
+   genres : {
+    type : [String],
+   },
+   artists : {
+    type : [String] ,
+   },
+   
    createdAt : {
      type : Date ,
      default : Date.now,     

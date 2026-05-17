@@ -48,7 +48,7 @@ const login = async (req , res) => {
  }
      const isPasswordValid = await  bcrypt.compare(password , user.password);
  if(!isPasswordValid) {
-          return res.status(400).json({message : "wrong password"})
+          return res.status(400).json({ message : "Wrong password"})
  }
     const token = jwt.sign({id :user._id} , JWT , {expiresIn : "7d"}) 
      res.status(200).json(
@@ -57,9 +57,31 @@ const login = async (req , res) => {
            user : {id : user._id ,  email:user.email},
            token
          } 
-     )    
+     );    
    } catch(err){
       return res.status(500).json({error : err.message})     
    }      
 };
-module.exports = {signup , login}
+//saveProfileUrl
+
+ const updateProfile = async (req , res) => {
+  try{
+     const {photoUrl , genres , artists} = req.body;
+   const user = await User.findById(req.user);
+   if(!user) {
+    return res.status(404).json({
+      message : "user not found"
+    })
+   }
+    user.savedSelectedgenres = genres || user.savedSelectedgenres;
+    user.savedSelectedArtists = artists || user.savedSelectedArtists;
+    user.savedPhotoUrl = photoUrl || user.savedPhotoUrl;
+    await user.save();
+    res.status(200).json({
+      message : "user updated successfully"
+    })
+  } catch(err){
+    return res.status(500).json({error : err.message});
+  }
+ }
+module.exports = {signup , login , updateProfile};

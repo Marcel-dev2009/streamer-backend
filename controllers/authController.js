@@ -81,9 +81,10 @@ const login = async (req , res) => {
     res.status(200).json({
       message : "user updated successfully"
     });
-    console.log("user update sucessfull")
+    console.log("user update sucessfully")
   } catch(err){
     return res.status(500).json({error : err.message});
   }
  } 
+
 module.exports = {signup , login , updateProfile};

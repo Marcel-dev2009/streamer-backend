@@ -81,7 +81,7 @@ const login = async (req , res) => {
     res.status(200).json({
       message : "user updated successfully"
     });
-    console.log("user update sucessfully")
+    console.log("user updated sucessfully")
   } catch(err){
     return res.status(500).json({error : err.message});
   }
